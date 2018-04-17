@@ -7,6 +7,16 @@
   height: 80px;
 }
 
+.logo {
+  height: 60px;
+  width: 60px;
+  background-image: url("assets/tgi.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
