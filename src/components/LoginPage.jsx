@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import './LoginPage.css';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { primaryColor } from './colors';
+import { primaryColor } from '../util/colors';
+import firebase from '../database';
 
-export default class App extends Component {
+export default class LoginPage extends Component {
 
   constructor(props) {
     super(props);
@@ -18,7 +19,13 @@ export default class App extends Component {
   onSubmit = () => {
     const { username, password } = this.state;
 
-    alert(username + " " + password);
+    firebase.auth().signInWithEmailAndPassword(username, password)
+    .catch(error => {
+      // Handle Errors here.
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+      console.log("Error! ", error);
+    });
   };
 
   updateUsername = (event) => {

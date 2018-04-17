@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'es5-shim';
 import 'es6-shim';
 import './index.css';
-import App from './App';
+import LoginPage from './components/LoginPage';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import { Provider } from 'react-redux';
@@ -21,13 +21,15 @@ const history = createHistory();
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
 
+const isAuthed = store.getState().authedUser.hasOwnProperty('uid');
+
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <MuiThemeProvider>
       <ConnectedRouter history={history}>
         <div style={{ height: "100%", width: "100%" }}>
-          <Route exact path="/" component={App}/>
+          <Route exact path="/" component={LoginPage}/>
           {/*<Route path="/admin" component={AdminPage}/>*/}
         </div>
       </ConnectedRouter>
