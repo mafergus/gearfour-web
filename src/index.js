@@ -3,48 +3,37 @@ import ReactDOM from 'react-dom';
 import 'es5-shim';
 import 'es6-shim';
 import './index.css';
-import LoginPage from './components/LoginPage';
 import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import { Provider } from 'react-redux';
-import createHistory from 'history/createBrowserHistory';
-import { Route } from 'react-router';
-import { ConnectedRouter } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import createHistory from 'history/createBrowserHistory';
+import { ConnectedRouter } from 'react-router-redux';
+import 'typeface-roboto';
+
+import AppRoutes from './AppRoutes';
 
 // ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 // registerServiceWorker();
 
 // Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory();
+
 
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
 
-const isAuthed = store.getState().authedUser.hasOwnProperty('uid');
+const history = createHistory();
 
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <MuiThemeProvider>
       <ConnectedRouter history={history}>
-        <div style={{ height: "100%", width: "100%" }}>
-          <Route exact path="/" component={LoginPage}/>
-          {/*<Route path="/admin" component={AdminPage}/>*/}
-        </div>
+        <AppRoutes />
       </ConnectedRouter>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 );
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <MuiThemeProvider>
-//       <ConnectedRouter>
-//         <Route exact path="/" component={App}/>
-//       </ConnectedRouter>
-//     </MuiThemeProvider>
-//   </Provider>,
-//   document.getElementById('root')
-// );
+
 registerServiceWorker();

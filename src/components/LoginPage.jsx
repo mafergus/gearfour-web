@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './LoginPage.css';
+import 'components/LoginPage.css';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import { primaryColor } from '../util/colors';
+import Button from 'material-ui/Button';
+import { primaryColor } from 'util/colors';
 import firebase from '../database';
 
 export default class LoginPage extends Component {
@@ -59,28 +59,30 @@ export default class LoginPage extends Component {
         </div>
         <div>
           <TextField
-            hintText="Username"
-            floatingLabelText="Username"
+            style={{ width: 250, marginBottom: 20 }}
+            placeholder="Username"
+            label="Username"
             onChange={this.updateUsername}
             value={this.state.username}
           />
           <br/>
           <TextField
-            hintText="Password"
-            floatingLabelText="Password"
+            style={{ width: 250 }}
+            label="Password"
+            placeholder="Password"
             type="password"
             onChange={this.updatePassword}
             value={this.state.password}
           />
           <br/>
-          <RaisedButton
-            style={{ marginTop: 40 }}
-            label="Submit"
-            backgroundColor={primaryColor}
-            labelColor="#FFFFFF"
+          <Button
+            style={{ marginTop: 40, color: "white", backgroundColor: primaryColor }}
+            variant="raised"
             onClick={this.onSubmit}
             fullWidth
-          />
+          >
+            Submit
+          </Button>
         </div>
       </div>
     );
