@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from 'material-ui/Button';
-import { Helmet } from 'react-helmet';
+import grey from 'material-ui/colors/grey';
 
 import { signOut } from 'util/Api';
-import EnhancedTable from 'components/EnhancedTable';
+import EnhancedTable from 'components/table/EnhancedTable';
 
 export default class MainPage extends React.Component {
 
@@ -13,10 +13,7 @@ export default class MainPage extends React.Component {
 
   render() {
     return (
-      <div style={{ height: "100%", width: "100%", backgroundColor: "white" }}>
-        <Helmet>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-        </Helmet>
+      <div style={{ height: "100%", width: "100%", backgroundColor: grey[100], display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Button
           variant="raised"
           label="Sign Out"
