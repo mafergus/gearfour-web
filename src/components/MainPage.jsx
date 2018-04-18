@@ -1,15 +1,35 @@
 import React from 'react';
+import { connect } from "react-redux";
 import Button from 'material-ui/Button';
 import grey from 'material-ui/colors/grey';
 
-import { signOut } from 'util/Api';
+import { signOut, fetchCustomers, fetchGarage } from 'util/Api';
 import EnhancedTable from 'components/table/EnhancedTable';
+import store from '../store';
 
-export default class MainPage extends React.Component {
+function mapStateToProps(state, props) {
+  return {
+    garageId: state.authedUser.uid,
+  };
+}
+
+class MainPage extends React.Component {
 
   signOut = () => {
     signOut();
   };
+
+  componentDidMount() {
+    const { garageId } = this.props;
+    fetchGarage(garageId)
+    .then(garage => {
+      store.dispatch({ type: "ADD_GARAGE_SUCCESS", garage });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    fetchCustomers(garageId);
+  }
 
   render() {
     return (
@@ -27,3 +47,5 @@ export default class MainPage extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(MainPage);

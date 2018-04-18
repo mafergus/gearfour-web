@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { primaryColor } from 'util/colors';
 import firebase from '../database';
+import { fetchGarage } from 'util/Api';
 
 export default class LoginPage extends Component {
 
@@ -20,6 +21,9 @@ export default class LoginPage extends Component {
     const { username, password } = this.state;
 
     firebase.auth().signInWithEmailAndPassword(username, password)
+    .then(user => {
+      debugger;
+    })
     .catch(error => {
       // Handle Errors here.
       // var errorCode = error.code;
