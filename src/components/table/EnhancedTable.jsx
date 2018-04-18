@@ -13,12 +13,6 @@ import Checkbox from 'material-ui/Checkbox';
 import Header from 'components/table/Header';
 import TableToolbar from 'components/table/TableToolbar';
 
-let counter = 0;
-function createData(name, number, car) {
-  counter += 1;
-  return { id: counter, name, number, car };
-}
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -36,8 +30,10 @@ class EnhancedTable extends React.Component {
 
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    customers: PropTypes.array.isRequired,
   };
 
+// data: [].sort((a, b) => (a.name < b.name ? -1 : 1)),
   constructor(props, context) {
     super(props, context);
 
@@ -45,11 +41,6 @@ class EnhancedTable extends React.Component {
       order: 'asc',
       orderBy: 'calories',
       selected: [],
-      data: [
-        createData('Matthew Ferguson', "+16507961513", "Pontiac G6 GT"),
-        createData('Ravi Kant', "+97150234567", "Nissan Maxima"),
-        createData('Shashank', "+97150454567", "BMW 323i"),
-      ].sort((a, b) => (a.name < b.name ? -1 : 1)),
       page: 0,
       rowsPerPage: 10,
     };
@@ -63,17 +54,17 @@ class EnhancedTable extends React.Component {
       order = 'asc';
     }
 
-    const data =
-      order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+    // const data =
+    //   order === 'desc'
+    //     ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+    //     : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 
-    this.setState({ data, order, orderBy });
+    // this.setState({ data, order, orderBy });
   };
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      this.setState({ selected: this.state.data.map(n => n.id) });
+      // this.setState({ selected: this.state.data.map(n => n.id) });
       return;
     }
     this.setState({ selected: [] });
@@ -112,8 +103,9 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const { order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { customers } = this.props;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, customers.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root} style={{ width: 1200 }}>
@@ -126,10 +118,10 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={customers.length}
             />
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
+              {customers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
                 const isSelected = this.isSelected(n.id);
                 return (
                   <TableRow
@@ -145,7 +137,7 @@ class EnhancedTable extends React.Component {
                       <Checkbox checked={isSelected} />
                     </TableCell>
                     <TableCell padding="none">{n.name}</TableCell>
-                    <TableCell>{n.number}</TableCell>
+                    <TableCell>{n.phoneNumber}</TableCell>
                     <TableCell>{n.car}</TableCell>
                   </TableRow>
                 );
@@ -160,7 +152,7 @@ class EnhancedTable extends React.Component {
         </div>
         <TablePagination
           component="div"
-          count={data.length}
+          count={customers.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

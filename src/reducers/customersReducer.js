@@ -1,9 +1,9 @@
 export function customersReducer(state = {}, action) {
   switch (action.type) {
     case "ADD_CUSTOMER":
-      debugger;
-      state[action.id] = action.customer;
-      return state;
+      let newState = { ...state };
+      newState[action.id] = { uid: action.id, ...action.customer };
+      return newState;
     default:
       return state;
   }

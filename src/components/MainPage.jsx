@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Button from 'material-ui/Button';
 import grey from 'material-ui/colors/grey';
 
@@ -7,9 +8,12 @@ import { signOut, fetchCustomers, fetchGarage } from 'util/Api';
 import EnhancedTable from 'components/table/EnhancedTable';
 import store from '../store';
 
+
 function mapStateToProps(state, props) {
+  console.log("Object.values(state.customers): ", Object.values(state.customers));
   return {
     garageId: state.authedUser.uid,
+    customers: Object.values(state.customers),
   };
 }
 
@@ -32,6 +36,8 @@ class MainPage extends React.Component {
   }
 
   render() {
+    const { customers } = this.props;
+
     return (
       <div style={{ height: "100%", width: "100%", backgroundColor: grey[100], display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Button
@@ -42,7 +48,7 @@ class MainPage extends React.Component {
         >
           Sign Out
         </Button>
-        <EnhancedTable />
+        <EnhancedTable customers={customers}/>
       </div>
     );
   }
