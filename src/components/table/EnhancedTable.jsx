@@ -12,6 +12,7 @@ import Checkbox from 'material-ui/Checkbox';
 
 import Header from 'components/table/Header';
 import TableToolbar from 'components/table/TableToolbar';
+import Row from 'components/table/Row';
 
 const styles = theme => ({
   root: {
@@ -63,8 +64,10 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
+    const { customers } = this.props;
+
     if (checked) {
-      // this.setState({ selected: this.state.data.map(n => n.id) });
+      this.setState({ selected: customers.map(n => n.uid) });
       return;
     }
     this.setState({ selected: [] });
@@ -122,25 +125,12 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {customers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
-                const isSelected = this.isSelected(n.id);
-                return (
-                  <TableRow
-                    hover
-                    onClick={event => this.handleClick(event, n.id)}
-                    role="checkbox"
-                    aria-checked={isSelected}
-                    tabIndex={-1}
-                    key={n.id}
-                    selected={isSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox checked={isSelected} />
-                    </TableCell>
-                    <TableCell padding="none">{n.name}</TableCell>
-                    <TableCell>{n.phoneNumber}</TableCell>
-                    <TableCell>{n.car}</TableCell>
-                  </TableRow>
-                );
+                const isSelected = this.isSelected(n.uid);
+                return <Row
+                  isSelected={isSelected}
+                  customer={n}
+                  onClick={this.handleClick}
+                />;
               })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>

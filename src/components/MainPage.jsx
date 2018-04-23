@@ -10,7 +10,6 @@ import store from '../store';
 
 
 function mapStateToProps(state, props) {
-  console.log("Object.values(state.customers): ", Object.values(state.customers));
   return {
     garageId: state.authedUser.uid,
     customers: Object.values(state.customers),
