@@ -23,11 +23,9 @@ export default class LoginPage extends Component {
 
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(user => {
-      debugger;
       console.log("user: ", user);
     })
     .catch(error => {
-      debugger;
       // Handle Errors here.
       // var errorCode = error.code;
       // var errorMessage = error.message;

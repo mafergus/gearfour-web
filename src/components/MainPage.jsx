@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import CustomersPane from 'components/CustomersPane';
+import MenuAppBar from 'components/MenuAppBar';
+import Sidebar from 'components/Sidebar';
+import { primaryColor } from 'util/colors';
 
 // Each logical "route" has two components, one for
 // the sidebar and one for the main area. We want to
@@ -26,45 +29,37 @@ const routes = [
   }
 ];
 
-function renderSidebar() {
-  return (
-    <div
-      style={{
-        padding: "10px",
-        width: "40%",
-        background: "#f0f0f0"
-      }}
-    >
-      <ul style={{ listStyleType: "none", padding: 0 }}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/customers">Customers</Link>
-        </li>
-        <li>
-          <Link to="/shoelaces">Shoelaces</Link>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
 const MainPage = () => (
   <Router>
-    <div style={{ display: "flex" }}>
-      {renderSidebar()}
-      <div style={{ flex: 1, padding: "10px" }}>
-        {routes.map((route, index) => (
-          // Render more <Route>s with the same paths as
-          // above, but different components this time.
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.main}
-          />
-        ))}
+    <div>
+      <MenuAppBar />
+      <div style={{ display: "flex" }}>
+        {/*<Sidebar style={{ height: "100%", width: "25%", backgroundColor: primaryColor, position: "fixed" }} />
+        <div style={{ width: "75%", padding: "10px" }}>
+          {routes.map((route, index) => (
+            // Render more <Route>s with the same paths as
+            // above, but different components this time.
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              component={route.main}
+            />
+          ))}
+        </div>*/}
+        <Sidebar style={{ height: "100%", width: "25%", backgroundColor: primaryColor }} />
+        <div style={{ width: "75%", height: "100%" }}>
+          {routes.map((route, index) => (
+            // Render more <Route>s with the same paths as
+            // above, but different components this time.
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              component={route.main}
+            />
+          ))}
+        </div>
       </div>
     </div>
   </Router>
