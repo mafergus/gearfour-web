@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router';
 import LoginPage from 'components/LoginPage';
 import MainPage from 'components/MainPage';
+import CustomersPane from 'components/CustomersPane';
 import { connect } from 'react-redux';
 import CssBaseline from 'material-ui/CssBaseline';
 
@@ -29,7 +30,8 @@ class AppRoutes extends React.Component {
     return (
       <div style={{ height: "100%", width: "100%", position: "fixed" }}>
         <CssBaseline />
-        <Route exact path="/" component={isAuthed ? MainPage : LoginPage} />
+        <Route exact path="/" component={isAuthed ? CustomersPane : LoginPage} />
+        <Route path="*" component={CustomersPane} />
         {/*<Route path="/admin" component={AdminPage}/>*/}
       </div>
     );

@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { primaryColor } from 'util/colors';
 import firebase from '../database';
-import { fetchGarage } from 'util/Api';
 
 export default class LoginPage extends Component {
 

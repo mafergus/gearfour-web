@@ -8,7 +8,6 @@ import Table, {
   TableRow,
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-import Checkbox from 'material-ui/Checkbox';
 
 import Header from 'components/table/Header';
 import TableToolbar from 'components/table/TableToolbar';
@@ -32,6 +31,11 @@ class EnhancedTable extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     customers: PropTypes.array.isRequired,
+    onSendMessageClick: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onSendMessageClick: () => {},
   };
 
 // data: [].sort((a, b) => (a.name < b.name ? -1 : 1)),
@@ -105,14 +109,17 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
+    const { classes, onSendMessageClick } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const { customers } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, customers.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root} style={{ width: 1200 }}>
-        <TableToolbar numSelected={selected.length} />
+        <TableToolbar
+          onSendMessageClick={event => onSendMessageClick(event, selected)}
+          numSelected={selected.length}
+        />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <Header
@@ -127,6 +134,7 @@ class EnhancedTable extends React.Component {
               {customers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
                 const isSelected = this.isSelected(n.uid);
                 return <Row
+                  key={n.uid}
                   isSelected={isSelected}
                   customer={n}
                   onClick={this.handleClick}

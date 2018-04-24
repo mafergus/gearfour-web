@@ -1,56 +1,73 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import Button from 'material-ui/Button';
-import grey from 'material-ui/colors/grey';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import { signOut, fetchCustomers, fetchGarage } from 'util/Api';
-import EnhancedTable from 'components/table/EnhancedTable';
-import store from '../store';
+import CustomersPane from 'components/CustomersPane';
 
+// Each logical "route" has two components, one for
+// the sidebar and one for the main area. We want to
+// render both of them in different places when the
+// path matches the current URL.
+const routes = [
+  {
+    path: '/',
+    exact: true,
+    sidebar: () => <div>home!</div>,
+    main: () => <CustomersPane />
+  },
+  {
+    path: '/customers',
+    sidebar: () => <div>bubblegum!</div>,
+    main: () => <CustomersPane />
+  },
+  {
+    path: '/shoelaces',
+    sidebar: () => <div>shoelaces!</div>,
+    main: () => <h2>Shoelaces</h2>
+  }
+];
 
-function mapStateToProps(state, props) {
-  return {
-    garageId: state.authedUser.uid,
-    customers: Object.values(state.customers),
-  };
+function renderSidebar() {
+  return (
+    <div
+      style={{
+        padding: "10px",
+        width: "40%",
+        background: "#f0f0f0"
+      }}
+    >
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/customers">Customers</Link>
+        </li>
+        <li>
+          <Link to="/shoelaces">Shoelaces</Link>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
-class MainPage extends React.Component {
-
-  signOut = () => {
-    signOut();
-  };
-
-  componentDidMount() {
-    const { garageId } = this.props;
-    fetchGarage(garageId)
-    .then(garage => {
-      store.dispatch({ type: "ADD_GARAGE_SUCCESS", garage });
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    fetchCustomers(garageId);
-  }
-
-  render() {
-    const { customers } = this.props;
-
-    return (
-      <div style={{ height: "100%", width: "100%", backgroundColor: grey[100], display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Button
-          variant="raised"
-          label="Sign Out"
-          onClick={this.signOut}
-          style={{ position: "fixed", right: 5, top: 5, color: "black", backgroundColor: "white" }}
-        >
-          Sign Out
-        </Button>
-        <EnhancedTable customers={customers}/>
+const MainPage = () => (
+  <Router>
+    <div style={{ display: "flex" }}>
+      {renderSidebar()}
+      <div style={{ flex: 1, padding: "10px" }}>
+        {routes.map((route, index) => (
+          // Render more <Route>s with the same paths as
+          // above, but different components this time.
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            component={route.main}
+          />
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  </Router>
+);
 
-export default connect(mapStateToProps)(MainPage);
+export default MainPage;
