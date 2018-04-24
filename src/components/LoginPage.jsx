@@ -11,8 +11,10 @@ export default class LoginPage extends Component {
     super(props);
 
     this.state = {
+      isError: false,
       username: '',
       password: '',
+      passwordLabel: 'Password',
     };
   }
 
@@ -22,12 +24,15 @@ export default class LoginPage extends Component {
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(user => {
       debugger;
+      console.log("user: ", user);
     })
     .catch(error => {
+      debugger;
       // Handle Errors here.
       // var errorCode = error.code;
       // var errorMessage = error.message;
       console.log("Error! ", error);
+      this.setState({ isError: true, passwordLabel: "Incorrect username or password" });
     });
   };
 
@@ -54,6 +59,8 @@ export default class LoginPage extends Component {
   };
 
   render() {
+    const { passwordLabel, isError } = this.state;
+
     return (
       <div className="App" style={{ display: "flex", flexDirection: "column", alignItems: "center" }} onKeyDown={this.onKeyDown}>
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -70,8 +77,9 @@ export default class LoginPage extends Component {
           />
           <br/>
           <TextField
+            error={isError}
             style={{ width: 250 }}
-            label="Password"
+            label={passwordLabel}
             placeholder="Password"
             type="password"
             onChange={this.updatePassword}

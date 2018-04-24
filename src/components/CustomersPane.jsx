@@ -17,7 +17,6 @@ import { signOut, fetchCustomers, fetchGarage } from 'util/Api';
 import EnhancedTable from 'components/table/EnhancedTable';
 import store from '../store';
 import SimpleSnackbar from 'components/ui/SimpleSnackbar';
-import MenuAppBar from 'components/MenuAppBar';
 import { primaryColor } from 'util/colors';
 
 function mapStateToProps(state, props) {
@@ -147,7 +146,6 @@ class CustomersPane extends React.Component {
 
     return (
       <div style={{ height: "100%", width: "100%", backgroundColor: grey[100], display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <MenuAppBar />
         <Button
           variant="raised"
           label="Sign Out"

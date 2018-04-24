@@ -31,7 +31,6 @@ class AppRoutes extends React.Component {
       <div style={{ height: "100%", width: "100%", position: "fixed" }}>
         <CssBaseline />
         <Route exact path="/" component={isAuthed ? CustomersPane : LoginPage} />
-        <Route path="*" component={CustomersPane} />
         {/*<Route path="/admin" component={AdminPage}/>*/}
       </div>
     );
